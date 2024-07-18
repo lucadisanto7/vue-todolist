@@ -1,38 +1,46 @@
-const { createApp, reactive } = Vue;
+const { createApp } = Vue;
 
 const App = {
-    setup() {
-        const state = reactive({
+    data() {
+        return {
             todos: [
                 { id: 1, text: 'Fare la spesa', done: false },
                 { id: 2, text: 'Pagare le bollette', done: true },
                 { id: 3, text: 'Fare il bucato', done: false }
             ],
             newTodoText: ''
-        });
-
-        const removeTodo = (index) => {
-            state.todos.splice(index, 1);
         };
-
-        const addTodo = () => {
-            if (state.newTodoText.trim() !== '') {
+    },
+    methods: {
+        removeTodo(index) {
+            this.todos.splice(index, 1);
+        },
+        addTodo() {
+            if (this.newTodoText.trim() !== '') {
                 const newTodo = {
-                    id: state.todos.length + 1,
-                    text: state.newTodoText,
+                    id: this.todos.length + 1,
+                    text: this.newTodoText,
                     done: false
                 };
-                state.todos.push(newTodo);
-                state.newTodoText = '';
+                this.todos.push(newTodo);
+                this.newTodoText = '';
             }
-        };
-
-        return {
-            state,
-            removeTodo,
-            addTodo
-        };
-    }
+        }
+    },
+    template: `
+        <div>
+            <ul>
+                <li v-for="(todo, index) in todos" :key="todo.id">
+                    <span :style="{ 'text-decoration': todo.done ? 'line-through' : 'none' }">
+                        {{ todo.text }}
+                    </span>
+                    <button @click="removeTodo(index)">X</button>
+                </li>
+            </ul>
+            <input type="text" v-model="newTodoText">
+            <button @click="addTodo">Aggiungi</button>
+        </div>
+    `
 };
 
 createApp(App).mount('#app');
