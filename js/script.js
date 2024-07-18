@@ -1,4 +1,4 @@
-// app-milestone1.js
+// app-milestone2.js
 const { createApp, reactive } = Vue;
 
 const App = {
@@ -11,8 +11,13 @@ const App = {
             ]
         });
 
+        const removeTodo = (index) => {
+            state.todos.splice(index, 1);
+        };
+
         return {
-            state
+            state,
+            removeTodo
         };
     }
 };
