@@ -1,4 +1,3 @@
-// app-milestone3.js
 const { createApp, reactive } = Vue;
 
 const App = {
